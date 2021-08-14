@@ -12,6 +12,9 @@
 # break if unsuccessful
 # Print out populated board + hints by row and column
 
+# Add step back functionality to remove a row if the word doesn't work
+# Add memory to not count a word if checked once
+
 possible_words = [
     ("pass_", "test"),
     ("open_", "test"),
@@ -45,8 +48,10 @@ possible_words = [
     ("_hey_", "what the...")
 ]
 
+failures = []
+
 board = [
-    ["-", "b", "a", "g", "_"],
+    ["_", "n", "n", "e", "_"],
     ["_", "_", "_", "_", "_"],
     ["_", "_", "_", "_", "_"],
     ["_", "_", "_", "_", "_"],
@@ -54,24 +59,46 @@ board = [
 ]
 
 
-def boardConstructor(possibilties, boardName):
+def boardConstructor(possibilties, boardName, failures=[]):
     row = 1
     loop_count = 0
     while row < 5:
         for word in possibilties:
             print("exploring a new word: ", word[0])
             if row < 5:
-                if addWord(boardName, word[0], row) is True:
-                    print("This is the row we added: ", row)
-                    printBoard(boardName)
-                    row = row + 1
-                    loop_count = 0
+                if word[0] not in failures:
+                    if addWord(boardName, word[0], row) is True:
+                        print("This is the row we added: ", row)
+                        printBoard(boardName)
+                        row = row + 1
+                        loop_count = 0
+                        failures = []
 
         loop_count += 1
         if loop_count > 1:
-            break
+            row -= 1
+            removeWord(boardName, (row), failures)
+            loop_count = 0
+            print('breakout')
+            print('this is row', row)
+            # break
     printBoard(boardName)
+    print('failures', failures)
     return boardName
+
+def removeWord(aboard, row=0, failures=[]):
+    """ Method to remove a word"""
+    removalWord = ''
+
+    #if aboard[row] == ["_", "_", "_", "_", "_"]:
+    #print("Throught if filter")
+    for position in range(0, 5):  # add word to new empty row
+        removalWord = removalWord + aboard[row][position]
+        print(removalWord)
+
+    failures.append(removalWord)
+    aboard[row] = ["_", "_", "_", "_", "_"]
+    print(failures)
 
 
 def addWord(aboard, word, row=0):
@@ -161,7 +188,7 @@ if __name__ == '__main__':
     printBoard(board)
     # if addWord(test_board, "argue", 2) is True:
     #    print("TREEEE")
-    boardConstructor(possible_words, board)
+    boardConstructor(possible_words, board, failures)
    # printBoard(board)
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
