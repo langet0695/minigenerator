@@ -14,6 +14,7 @@
 
 # Add step back functionality to remove a row if the word doesn't work
 # Add memory to not count a word if checked once
+import random
 
 possible_words = [
     ("pass_", "test"),
@@ -51,7 +52,7 @@ possible_words = [
 failures = []
 
 board = [
-    ["_", "n", "n", "e", "_"],
+    ["_", "_", "_", "_", "_"],
     ["_", "_", "_", "_", "_"],
     ["_", "_", "_", "_", "_"],
     ["_", "_", "_", "_", "_"],
@@ -60,30 +61,34 @@ board = [
 
 
 def boardConstructor(possibilties, boardName, failures=[]):
-    row = 1
+    row = 0
     loop_count = 0
+    topLineFail = []
     while row < 5:
         for word in possibilties:
-            print("exploring a new word: ", word[0])
+            # print("exploring a new word: ", word[0])
             if row < 5:
                 if word[0] not in failures:
                     if addWord(boardName, word[0], row) is True:
-                        print("This is the row we added: ", row)
-                        printBoard(boardName)
+                        # print("This is the row we added: ", row)
+                        # printBoard(boardName)
                         row = row + 1
                         loop_count = 0
-                        failures = []
+                        # failures = []
 
         loop_count += 1
-        if loop_count > 1:
+        if loop_count > 1 and row != 0:
             row -= 1
             removeWord(boardName, (row), failures)
             loop_count = 0
-            print('breakout')
-            print('this is row', row)
+            # print('breakout')
+            # print('this is row', row)
             # break
-    printBoard(boardName)
-    print('failures', failures)
+        elif loop_count > 1 and row == 0:
+            failures = []
+            random.shuffle(possibilties)
+    # printBoard(boardName)
+    # print('failures', failures)
     return boardName
 
 def removeWord(aboard, row=0, failures=[]):
@@ -94,18 +99,18 @@ def removeWord(aboard, row=0, failures=[]):
     #print("Throught if filter")
     for position in range(0, 5):  # add word to new empty row
         removalWord = removalWord + aboard[row][position]
-        print(removalWord)
+        # print(removalWord)
 
     failures.append(removalWord)
     aboard[row] = ["_", "_", "_", "_", "_"]
-    print(failures)
+    # print(failures)
 
 
 def addWord(aboard, word, row=0):
     """ Method to check and see if a word can be added"""
-    print("entering add word: ", word)
-    print("this is row:", row)
-    print("this is board[row]: ", aboard[row])
+    # print("entering add word: ", word)
+    # print("this is row:", row)
+    # print("this is board[row]: ", aboard[row])
 
     #if aboard[row] == ["_", "_", "_", "_", "_"]:
     #print("Throught if filter")
@@ -126,46 +131,46 @@ def addWord(aboard, word, row=0):
         for column in range(0, 5):
             if column == 0:
                 vWord0 = vWord0 + aboard[row][column]
-                print('this is vWord0: ', vWord0)
+                # print('this is vWord0: ', vWord0)
             if column == 1:
                 vWord1 = vWord1 + aboard[row][column]
-                print('this is vWord1: ', vWord1)
+                # print('this is vWord1: ', vWord1)
             if column == 2:
-                print("This is vWord2: ", vWord2)
+                # print("This is vWord2: ", vWord2)
                 vWord2 = vWord2 + aboard[row][column]
-                print("This is vWord2: ", vWord2)
+                # print("This is vWord2: ", vWord2)
             if column == 3:
-                print("This is vWord3: ", vWord3)
+                # print("This is vWord3: ", vWord3)
                 vWord3 = vWord3 + aboard[row][column]
-                print("This is vWord3: ", vWord3)
+                # print("This is vWord3: ", vWord3)
             if column == 4:
-                print("This is vWord4: ", vWord4)
+                # print("This is vWord4: ", vWord4)
                 vWord4 = vWord4 + aboard[row][column]
-                print("This is vWord4: ", vWord4)
+                # print("This is vWord4: ", vWord4)
 
     for element in possible_words:
-        print("Ths is element word: ", element[0])
+        # print("Ths is element word: ", element[0])
         if vWord0 in element[0]:
-            print("word0 is in")
+            # print("word0 is in")
             word_true[0] = 1
         if vWord1 in element[0]:
-            print("vword1 is in: ", vWord1)
+            # print("vword1 is in: ", vWord1)
             word_true[1] = 1
         if vWord2 in element[0]:
-            print("vword2 is in: ", vWord2)
+            # print("vword2 is in: ", vWord2)
             word_true[2] = 1
         if vWord3 in element[0]:
             word_true[3] = 1
         if vWord4 in element[0]:
             word_true[4] = 1
-    print("this is word_true: ", word_true)
+    # print("this is word_true: ", word_true)
     if 0 in word_true:
-        print('no go')
+        # print('no go')
         for position in range(0, 5):  # add word to new empty row
             aboard[row][position] = "_"
         return False
     else:
-        print("we have a true")
+        # print("we have a true")
         row += 1
         return True
 
@@ -174,21 +179,15 @@ def printBoard(board):
     for row in board:
         print(row)
 
-
-test_board = [
-    ["_", "b", "a", "g", "_"],
-    ["s", "a", "r", "a", "h"],
-    ["_", "_", "_", "_", "_"],
-    ["_", "_", "_", "_", "_"],
-    ["_", "_", "_", "_", "_"]
-]
-
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
+    print('this is the start')
     printBoard(board)
-    # if addWord(test_board, "argue", 2) is True:
-    #    print("TREEEE")
+
+    random.shuffle(possible_words)
     boardConstructor(possible_words, board, failures)
-   # printBoard(board)
+
+    print('this is the end')
+    printBoard(board)
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
