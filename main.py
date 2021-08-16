@@ -15,39 +15,44 @@
 # Add step back functionality to remove a row if the word doesn't work
 # Add memory to not count a word if checked once
 import random
-
-possible_words = [
-    ("pass_", "test"),
-    ("open_", "test"),
-    ("tapas", "_"),
-    ("_rice", "_"),
-    ("_take", "test"),
-    ("pot__", "test"),
-    ("apart", "test"),
-    ("sepia", "test"),
-    ("snack", "test"),
-    ("__see", "test"),
-    ("SODAS", "Fast-food drinks"),
-    ("TOROS", "Corrida de ___ (“Running of the Bulls”)"),
-    ("SHAME", "Feeling of humiliation"),
-    ("OCEAN", "Separator of continents"),
-    ("_CABS", "Yellow symbols of N.Y.C."),
-    ("_NESS", "Loch ___ monster"),
-    ("SAMOA", "Girl Scout cookie sprinkled with coconut"),
-    ("BEARD", "Dopey is the only one of the Seven Dwarfs without one"),
-    ("ACHOO", "Sound preceding Bless you!"),
-    ("COSTS", "Counterpart of benefits, in a business analysis"),
-    ("_bag_", "something placed in an overhead compartment"),
-    ("sarah", "comedian Silverman"),
-    ("argue", "make the case for"),
-    ("doozy", "total wower"),
-    ("_nne_", "opposite of SSW"),
-    ("baron", "industry tycoon"),
-    ("argon", "element suggested here NOPQSTU"),
-    ("gauze", "wrap in a first aid kit"),
-    ("_sad_", "feeling blue"),
-    ("_hey_", "what the...")
-]
+import json
+import dictConfig
+possible_words = dictConfig.WordGenerator()
+#
+#
+#
+# possible_words = [
+#     ("pass_", "test"),
+#     ("open_", "test"),
+#     ("tapas", "_"),
+#     ("_rice", "_"),
+#     ("_take", "test"),
+#     ("pot__", "test"),
+#     ("apart", "test"),
+#     ("sepia", "test"),
+#     ("snack", "test"),
+#     ("__see", "test"),
+#     ("SODAS", "Fast-food drinks"),
+#     ("TOROS", "Corrida de ___ (“Running of the Bulls”)"),
+#     ("SHAME", "Feeling of humiliation"),
+#     ("OCEAN", "Separator of continents"),
+#     ("_CABS", "Yellow symbols of N.Y.C."),
+#     ("_NESS", "Loch ___ monster"),
+#     ("SAMOA", "Girl Scout cookie sprinkled with coconut"),
+#     ("BEARD", "Dopey is the only one of the Seven Dwarfs without one"),
+#     ("ACHOO", "Sound preceding Bless you!"),
+#     ("COSTS", "Counterpart of benefits, in a business analysis"),
+#     ("_bag_", "something placed in an overhead compartment"),
+#     ("sarah", "comedian Silverman"),
+#     ("argue", "make the case for"),
+#     ("doozy", "total wower"),
+#     ("_nne_", "opposite of SSW"),
+#     ("baron", "industry tycoon"),
+#     ("argon", "element suggested here NOPQSTU"),
+#     ("gauze", "wrap in a first aid kit"),
+#     ("_sad_", "feeling blue"),
+#     ("_hey_", "what the...")
+# ]
 
 failures = []
 
@@ -81,11 +86,13 @@ def boardConstructor(possibilties, boardName, failures=[]):
             row -= 1
             removeWord(boardName, (row), failures)
             loop_count = 0
+            print('did not make it')
             # print('breakout')
             # print('this is row', row)
             # break
         elif loop_count > 1 and row == 0:
             failures = []
+            print('failure')
             random.shuffle(possibilties)
     # printBoard(boardName)
     # print('failures', failures)
