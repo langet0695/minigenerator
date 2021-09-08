@@ -2,33 +2,27 @@
 # Description: This is an experiment to develop an algorithm that can generate a mini cross word (5x5) puzzle.
 
 # TO DO:
-# v1 DONE Create a list of tuples containing (word, hint)
-# Create a board that is a 5 element array with 5 nested arrays of length 5
-# Population stage
-# While loop to iterate over list of tuples checking to see what can be added
-# If statements to check if a word can be added horizontally
-# If statements to check if word can be added vertically
-# break once a mini meets succes criteria (e.g. 5 horizontal words and ok vertical statements)
-# break if unsuccessful
-# Print out populated board + hints by row and column
+# Identify why there is a possible ordering of words that won't work
 
-# Add step back functionality to remove a row if the word doesn't work
-# Add memory to not count a word if checked once
 import random
 import json
-import dictConfig
+# import dictConfig
 # possible_words = dictConfig.WordGenerator()
 #
 #
 #
 possible_words = [
-    ("pass_", "test"),
     ("open_", "test"),
+    ("snark", "test"),
     ("tapas", "_"),
     ("_rice", "_"),
+    ("isbns", "test"),
+    ("_hug_", "test"),
+    ("korea", "test"),
     ("_take", "test"),
     ("pot__", "test"),
     ("apart", "test"),
+    ("pass_", "test"),
     ("sepia", "test"),
     ("snack", "test"),
     ("__see", "test"),
@@ -37,14 +31,21 @@ possible_words = [
     ("SHAME", "Feeling of humiliation"),
     ("OCEAN", "Separator of continents"),
     ("_CABS", "Yellow symbols of N.Y.C."),
+    ("_asks", "test"),
     ("_NESS", "Loch ___ monster"),
     ("SAMOA", "Girl Scout cookie sprinkled with coconut"),
     ("BEARD", "Dopey is the only one of the Seven Dwarfs without one"),
     ("ACHOO", "Sound preceding Bless you!"),
     ("COSTS", "Counterpart of benefits, in a business analysis"),
     ("_bag_", "something placed in an overhead compartment"),
+    ("_nne_", "opposite of SSW"),
     ("sarah", "comedian Silverman"),
     ("argue", "make the case for"),
+    ("sines", "test"),
+    ("_kiss", "test"),
+    ("hosni", "test"),
+    ("urban", "test"),
+    ("genre", "test"),
     ("doozy", "total wower"),
     ("_nne_", "opposite of SSW"),
     ("baron", "industry tycoon"),
@@ -68,7 +69,7 @@ board = [
 def boardConstructor(possibilties, boardName, failures=[]):
     row = 0
     loop_count = 0
-    shortPos = possibilties[0:100]
+    # shortPos = possibilties[0:100]
     topLineFail = []
     while row < 5:
         for word in possibilties:
@@ -87,33 +88,33 @@ def boardConstructor(possibilties, boardName, failures=[]):
         if loop_count > 1 and row != 0:
             print('did not make it')
             print('this is the row ', row)
+            printBoard(boardName)
+            print('this is possibilities: ')
+            print(possibilties)
             row -= 1
-            removeWord(boardName, (row), failures)
+            removeWord(boardName, row, failures)
             loop_count = 0
-            # print('breakout')
-            # print('this is row', row)
-            # break
+
         elif loop_count > 1 and row == 0:
             failures = []
             print('failure')
+            # using random shuffle controls for situations where the possiblities cannot work with code
             random.shuffle(possibilties)
-    # printBoard(boardName)
-    # print('failures', failures)
     return boardName
 
 def removeWord(aboard, row=0, failures=[]):
     """ Method to remove a word"""
     removalWord = ''
 
-    #if aboard[row] == ["_", "_", "_", "_", "_"]:
-    #print("Throught if filter")
+    # if aboard[row] == ["_", "_", "_", "_", "_"]:
+    #     print("Throught if filter")
     for position in range(0, 5):  # add word to new empty row
         removalWord = removalWord + aboard[row][position]
         # print(removalWord)
 
     failures.append(removalWord)
     aboard[row] = ["_", "_", "_", "_", "_"]
-    # print(failures)
+    print(failures)
 
 
 def addWord(aboard, word, row=0):
